@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <link rel="icon" href="{{ url_for('static', filename='images/fevicon.png') }}" type="image/gif" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>Hostit</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+
+  <!-- Fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome style -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}" />
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+  <!-- Responsive style -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}" />
+  
+</head>
+
+<body>
+
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <span>TrustGram</span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html"> About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="service.html">Services</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="price.html">Pricing</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contact Us</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    
+    <!-- Profile Check Section -->
+    <div style="text-align: center; color: white;">
+      <h1>Welcome!</h1>
+      <p id="user-email">Logged in as: {{ user_email }}</p>
+    </div>
+    
+    <!-- Card for Profile Check -->
+<div style="background-color: rgba(255, 255, 255, 0.15); width: 400px; margin: 30px auto; padding: 25px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3); color: white; text-align: center;">
+  <h3>Check Instagram Profile</h3>
+  <form action="/check_profile" method="POST">
+    <input type="text" name="username" placeholder="Enter Instagram username" required style="width: 90%; padding: 10px; margin-top: 15px; border: none; border-radius: 5px;"><br>
+    <button type="submit" style="margin-top: 15px; padding: 10px 20px; background: #00bfff; border: none; border-radius: 5px; color: white; font-weight: bold;">Submit</button>
+  </form>
+</div>
+  <!-- Result Container (Initially Empty) -->
+<div id="result-container" style="margin-top: 40px;">
+
+  {% if result and result.exists %}
+  <!-- Success Card -->
+  <div style="background-color: rgba(255, 255, 255, 0.15); width: 400px; margin: 20px auto; padding: 25px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.3); color: white; text-align: center;">
+    <h2 style="margin-bottom: 15px;">Result</h2>
+    <p style="color: #00ff7f; font-weight: bold;"><strong>✅ Instagram Account Exists!</strong></p>
+    <img src="{{ result.profile_picture }}" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 15px 0;">
+    <p style="margin: 8px 0;"><strong>📛 Account Name:</strong> {{ username }}</p>
+    <p style="margin: 8px 0;"><strong>📌 Bio:</strong> {{ result.bio }}</p>
+  </div>
+
+  <!-- Proceed Button Card -->
+  <div style="background-color: rgba(255, 255, 255, 0.15); width: 400px; margin: 20px auto; padding: 20px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.3); text-align: center;">
+    <form action="/userInteration" method="post">
+      <input type="hidden" name="username" value="{{ username }}">
+      <input type="hidden" name="profile_picture" value="{{ result.profile_picture }}">
+      <button type="submit" style="padding: 10px 20px; background: linear-gradient(45deg, #007bff, #00bfff); border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer;">
+        Proceed to Account Classification
+      </button>
+    </form>
+  </div>
+
+  {% elif result and not result.exists %}
+  
+  <!-- Error Card -->
+  <div style="background-color: rgba(255, 255, 255, 0.15); width: 400px; margin: 20px auto; padding: 25px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.3); color: #ff4444; text-align: center;">
+    <p style="font-weight: bold;">❌ Invalid Instagram Username. Please enter a valid username.</p>
+  </div>
+  
+  {% endif %}
+</div>
+</body>
+</html>

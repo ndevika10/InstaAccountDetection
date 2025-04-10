@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #3b60e4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .login-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .signup-link {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .signup-link a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    /* Popup Modal Styling */
+    .popup-card {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 999;
+      width: 280px;
+      text-align: center;
+    }
+
+    .popup-card h3 {
+      margin: 0 0 10px;
+    }
+
+    .popup-card button {
+      margin-top: 10px;
+      background-color: #f5c6cb;
+      color: #721c24;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .popup-card button:hover {
+      background-color: #e4b1b8;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 998;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Login</h2>
+    <form action="{{ url_for('login') }}" method="POST">
+      <input type="email" name="email" placeholder="Email" value="{{ request.form['email'] if request.form.get('email') else '' }}" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <div class="signup-link">
+      Don't have an account? <a href="{{ url_for('signup') }}">Signup</a>
+    </div>
+  </div>
+
+  {% if message %}
+    <div class="overlay" id="overlay"></div>
+    <div class="popup-card" id="popupCard">
+      <h3>Login Failed</h3>
+      <p>{{ message }}</p>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  {% endif %}
+
+  <script>
+    function closePopup() {
+      document.getElementById("popupCard").style.display = "none";
+      document.getElementById("overlay").style.display = "none";
+    }
+  
+    window.onload = function () {
+      const hasMessage = document.body.dataset.message === "true";
+      if (hasMessage) {
+        document.getElementById("popupCard").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+      }
+    };
+  </script>
+
+</body>
+</html>
+
+

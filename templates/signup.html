@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3b60e4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .signup-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .signup-btn:hover {
+            background-color: #0056b3;
+        }
+        .login-link {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .login-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        /* Popup Card Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 280px;
+        }
+        .popup h3 {
+            color: green;
+            margin-bottom: 10px;
+        }
+        .popup p {
+            margin-bottom: 15px;
+        }
+        .popup button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Signup</h2>
+        <form action="{{ url_for('signup') }}" method="POST">
+            <input type="email" name="email" placeholder="Email" value="{{ request.form['email'] if request.form.get('email') else '' }}" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+            
+            <button type="submit" class="signup-btn">Signup</button>
+        
+            <!-- Show message below the form -->
+            {% if message %}
+                <p style="color: red; font-size: 14px; margin-top: 10px;">{{ message }}</p>
+            {% endif %}
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="{{ url_for('login') }}">Login</a>
+        </div>
+        <hr>
+    </div>
+
+    <!-- Success Popup Card -->
+    {% if success %}
+    <div class="popup" id="successPopup">
+        <h3>Account Created!</h3>
+        <p>Your account has been created successfully.</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+    <script>
+        // Show the popup on page load if success message exists
+        window.onload = function() {
+            document.getElementById("successPopup").style.display = "block";
+        };
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById("successPopup").style.display = "none";
+            window.location.href = "{{ url_for('login') }}"; // Redirect to login page
+        }
+    </script>
+    {% endif %}
+
+</body>
+</html>
