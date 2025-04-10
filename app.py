@@ -144,6 +144,49 @@ def check_profile():
     # Re-render the intro page with profile result
     return render_template("intro.html", result=result, username=username, user_email=session.get('user'))
 
+@app.route('/userInteraction', methods=['POST'])
+def user_interaction():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    # Extract form data
+    username = request.form.get("username", "")
+    nmedia = int(request.form.get("nmedia", 0))
+    nfollower = int(request.form.get("nfollower", 0))
+    nfollowing = int(request.form.get("nfollowing", 0))
+    pic = int(request.form.get("pic", 0))
+    url_present = int(request.form.get("url", 0))
+    pr = int(request.form.get("pr", 0))
+    hasMedia = int(request.form.get("hasMedia", 0))
+    follow_account = int(request.form.get("follow_account", 0))
+    highlights = int(request.form.get("highlights", 0))
+    stories = int(request.form.get("stories", 0))
+    newtag = int(request.form.get("newtag", 0))
+
+    # Calculate follower-to-following ratio
+    try:
+        followertofollowing = round(nfollower / nfollowing, 7) if nfollowing != 0 else 0.0
+    except ZeroDivisionError:
+        followertofollowing = 0.0
+
+    # Pass data to template (no DB used)
+    return render_template(
+        "userInteraction.html",
+        username=username,
+        nmedia=nmedia,
+        nfollower=nfollower,
+        nfollowing=nfollowing,
+        pic=pic,
+        url=url_present,
+        pr=pr,
+        hasMedia=hasMedia,
+        follow_account=follow_account,
+        highlights=highlights,
+        stories=stories,
+        newtag=newtag,
+        followertofollowing=followertofollowing
+    )
+
 
 # Logout Route
 @app.route('/logout')

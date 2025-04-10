@@ -13,7 +13,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Hostit</title>
+  <title>TrustGram</title>
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
@@ -90,17 +90,17 @@
 
   {% if result and result.exists %}
   <!-- Success Card -->
-  <div style="background-color: rgba(255, 255, 255, 0.15); width: 400px; margin: 20px auto; padding: 25px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.3); color: white; text-align: center;">
+  <div style="background-color: rgba(255, 255, 255, 0.15); width: 700px; margin: 20px auto; padding: 25px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.3); color: white; text-align: center;">
     <h2 style="margin-bottom: 15px;">Result</h2>
     <p style="color: #00ff7f; font-weight: bold;"><strong>✅ Instagram Account Exists!</strong></p>
-    <img src="{{ result.profile_picture }}" alt="Profile Picture" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 15px 0;">
+    <img src="{{ result.profile_picture }}" alt="Profile Picture" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin: 15px 0;">
     <p style="margin: 8px 0;"><strong>📛 Account Name:</strong> {{ username }}</p>
     <p style="margin: 8px 0;"><strong>📌 Bio:</strong> {{ result.bio }}</p>
   </div>
 
   <!-- Proceed Button Card -->
   <div style="background-color: rgba(255, 255, 255, 0.15); width: 400px; margin: 20px auto; padding: 20px; border-radius: 12px; box-shadow: 0 0 12px rgba(0,0,0,0.3); text-align: center;">
-    <form action="/userInteration" method="post">
+    <form action="/userInteraction" method="post">
       <input type="hidden" name="username" value="{{ username }}">
       <input type="hidden" name="profile_picture" value="{{ result.profile_picture }}">
       <button type="submit" style="padding: 10px 20px; background: linear-gradient(45deg, #007bff, #00bfff); border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer;">

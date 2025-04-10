@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <link rel="icon" href="{{ url_for('static', filename='images/fevicon.png') }}" type="image/gif" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>TRustGram</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+
+  <!-- Fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome style -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}" />
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+  <!-- Responsive style -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}" />
+</head>
+
+<body>
+
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <span>TrustGram</span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html"> About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contact Us</a>
+              </li>
+            </ul>
+            <div class="quote_btn-container">
+              <form class="form-inline">
+                <button class="btn   nav_search-btn" type="submit">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div style="background-color: white; width: 700px; margin: 40px auto; padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2); font-family: Arial, sans-serif; color: black;">
+
+        <h3 style="text-align: center; margin-bottom: 25px; color: #333;">👤 Account: <span style="color: #00796b;">{{ username }}</span></h3>
+      
+        <form id="detailsForm" method="post" action="/userInteraction">
+          <input type="hidden" name="username" value="{{ username }}">
+      
+          <label for="nmedia" style="display: block; margin-bottom: 5px;">Number of Posts:</label>
+          <input type="number" id="nmedia" name="nmedia" required
+            style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc;">
+      
+          <label for="nfollower" style="display: block; margin-bottom: 5px;">Number of Followers:</label>
+          <input type="number" id="nfollower" name="nfollower" required
+            style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc;">
+      
+          <label for="nfollowing" style="display: block; margin-bottom: 5px;">Number of Following:</label>
+          <input type="number" id="nfollowing" name="nfollowing" required
+            style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc;">
+      
+          <label for="followertofollowing" style="display: block; margin-bottom: 5px;">Follower-to-Following Ratio:</label>
+          <input type="text" id="followertofollowing" name="followertofollowing" readonly
+            style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #ccc; background-color: #f9f9f9;">
+      
+          <!-- Radio Button Sections -->
+          <label style="display: block; margin-top: 15px;">Is Profile Picture Present?</label>
+          <div style="margin-bottom: 10px;">
+            <label style="margin-right: 15px;"><input type="radio" name="pic" value="1" required style="margin-right: 5px;"> Yes</label>
+            <label><input type="radio" name="pic" value="0" style="margin-right: 5px;"> No</label>
+          </div>
+      
+          <label>Is URL Present in Bio?</label>
+          <div style="margin-bottom: 10px;">
+            <label style="margin-right: 15px;"><input type="radio" name="url" value="1" required style="margin-right: 5px;"> Yes</label>
+            <label><input type="radio" name="url" value="0" style="margin-right: 5px;"> No</label>
+          </div>
+      
+          <label>Is Account PR?</label>
+          <div style="margin-bottom: 10px;">
+            <label style="margin-right: 15px;"><input type="radio" name="pr" value="1" required style="margin-right: 5px;"> Yes</label>
+            <label><input type="radio" name="pr" value="0" style="margin-right: 5px;"> No</label>
+          </div>
+          
+          <label>Do You Follow This Account?</label>
+            <div style="margin-bottom: 10px;">
+            <label style="margin-right: 15px;"><input type="radio" name="follow_account" value="1" required style="margin-right: 5px;"> Yes</label>
+          <label><input type="radio" name="follow_account" value="0" style="margin-right: 5px;"> No</label>
+            </div>
+
+            <label>Does the Account Have Highlights?</label>
+            <div style="margin-bottom: 10px;">
+            <label style="margin-right: 15px;"><input type="radio" name="highlights" value="1" required style="margin-right: 5px;"> Yes</label>
+            <label><input type="radio" name="highlights" value="0" style="margin-right: 5px;"> No</label>
+            </div>
+
+            <label>Does the Account Post Stories Frequently?</label>
+            <div style="margin-bottom: 10px;">
+            <label style="margin-right: 15px;"><input type="radio" name="stories" value="1" required style="margin-right: 5px;"> Yes</label>
+            <label><input type="radio" name="stories" value="0" style="margin-right: 5px;"> No</label>
+            </div>
+
+            <label>Does the Account Have a "New" Tag?</label>
+            <div style="margin-bottom: 10px;">
+            <label style="margin-right: 15px;"><input type="radio" name="newtag" value="1" required style="margin-right: 5px;"> Yes</label>
+            <label><input type="radio" name="newtag" value="0" style="margin-right: 5px;"> No</label>
+            </div>
+          <button type="submit"
+            style="width: 100%; padding: 12px; margin-top: 15px; border: none; border-radius: 8px; background: linear-gradient(45deg, #00b894, #00cec9); color: white; font-weight: bold; font-size: 16px; cursor: pointer;">
+            Submit Details
+          </button>
+        </form>
+      </div>
+      <script>
+        const followerInput = document.getElementById('nfollower');
+        const followingInput = document.getElementById('nfollowing');
+        const ratioInput = document.getElementById('followertofollowing');
+      
+        function calculateRatio() {
+          const followers = parseFloat(followerInput.value);
+          const following = parseFloat(followingInput.value);
+      
+          if (!isNaN(followers) && !isNaN(following) && following !== 0) {
+            const ratio = (followers / following).toFixed(2);
+            ratioInput.value = ratio;
+          } else {
+            ratioInput.value = '';
+          }
+        }
+      
+        followerInput.addEventListener('input', calculateRatio);
+        followingInput.addEventListener('input', calculateRatio);
+      </script>      
+</div>
+</body>
+</html>
