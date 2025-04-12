@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f7f9fc; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+    <div style="background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); max-width: 700px; width: 100%;">
+        <h1 style="text-align: center; color: #333;">Instagram Account Analysis</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 30px;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Feature</th>
+                    <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Username</td><td style="padding: 10px; border: 1px solid #ddd;">{{ username }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Number of Posts</td><td style="padding: 10px; border: 1px solid #ddd;">{{ nmedia }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Followers</td><td style="padding: 10px; border: 1px solid #ddd;">{{ nfollower }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Following</td><td style="padding: 10px; border: 1px solid #ddd;">{{ nfollowing }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Profile Picture</td><td style="padding: 10px; border: 1px solid #ddd;">{{ pic }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">URL Present</td><td style="padding: 10px; border: 1px solid #ddd;">{{ url }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Private Account</td><td style="padding: 10px; border: 1px solid #ddd;">{{ pr }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Has Media</td><td style="padding: 10px; border: 1px solid #ddd;">{{ hasMedia }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Follows Account</td><td style="padding: 10px; border: 1px solid #ddd;">{{ follow_account }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Highlights</td><td style="padding: 10px; border: 1px solid #ddd;">{{ highlights }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Stories</td><td style="padding: 10px; border: 1px solid #ddd;">{{ stories }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">New Tag</td><td style="padding: 10px; border: 1px solid #ddd;">{{ newtag }}</td></tr>
+                <tr><td style="padding: 10px; border: 1px solid #ddd;">Follower-to-Following Ratio</td><td style="padding: 10px; border: 1px solid #ddd;">{{ followertofollowing }}</td></tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 40px; padding: 20px; background-color: {% if 'Fake' in result %}#ffdddd{% else %}#ddffdd{% endif %}; border: 2px solid {% if 'Fake' in result %}#ff4d4d{% else %}#2ecc71{% endif %}; border-radius: 8px; text-align: center;">
+            <h2 style="color: {% if 'Fake' in result %}#d8000c{% else %}#2e7d32{% endif %}; font-size: 24px;">Prediction: {{ result }}</h2>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="/" style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: white; text-decoration: none; border-radius: 8px; font-size: 16px;">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

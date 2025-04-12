@@ -169,9 +169,22 @@ def user_interaction():
     except ZeroDivisionError:
         followertofollowing = 0.0
 
-    # Pass data to template (no DB used)
+    # Load the model (you can also move this to global scope to load once)
+    import pickle
+    import numpy as np
+    with open("xgb_fake_account_model.pkl", "rb") as f:
+        xgb_model = pickle.load(f)
+
+    # Prepare features for prediction (no reanalysis logic used)
+    input_features = np.array([[nmedia, nfollower, nfollowing, pic, url_present,
+                                pr, 0, followertofollowing, hasMedia]])
+
+    prediction = xgb_model.predict(input_features)[0]
+    result_text = "Fake Account ❌" if prediction == 1 else "Real Account ✅"
+
+    # Pass data to template
     return render_template(
-        "userInteraction.html",
+        "result.html",
         username=username,
         nmedia=nmedia,
         nfollower=nfollower,
@@ -184,8 +197,10 @@ def user_interaction():
         highlights=highlights,
         stories=stories,
         newtag=newtag,
-        followertofollowing=followertofollowing
+        followertofollowing=followertofollowing,
+        result=result_text  # ⬅️ Pass prediction to template
     )
+
 
 
 # Logout Route
