@@ -200,6 +200,35 @@ def result():
     result_text = "Fake Account ❌" if prediction == 1 else "Real Account ✅"
     initial_result = "Fake Account ❌" if initial_prediction == 1 else "Real Account ✅"
 
+    # Store the result in the database
+    try:
+        conn = get_db_connection()
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO predictions (
+                    email, username, prediction_result, initial_prediction, 
+                    nmedia, nfollower, nfollowing, pic, url_present, has_media, 
+                    follow_account, highlights, stories, newtag
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (
+                session['user'], username, result_text, initial_result, 
+                nmedia, nfollower, nfollowing, pic, url_present, hasMedia, 
+                follow_account, highlights, stories, newtag
+            ))
+            conn.commit()
+
+    except Error as e:
+        print(f"Database Error: {e}")
+
+    finally:
+        if conn:
+            conn.close()
+
+    # Store additional data in session for future use or tracking
+    session['result'] = result_text
+    session['initial_result'] = initial_result
+
     return render_template("result.html",
                        username=username,
                        nmedia=nmedia,
