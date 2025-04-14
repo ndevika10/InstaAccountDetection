@@ -144,64 +144,49 @@ def check_profile():
     # Re-render the intro page with profile result
     return render_template("intro.html", result=result, username=username, user_email=session.get('user'))
 
-@app.route('/userInteraction', methods=['POST'])
+@app.route('/userInteraction', methods=['GET', 'POST'])
 def user_interaction():
     if 'user' not in session:
         return redirect(url_for('login'))
 
-    # Extract form data
+    if request.method == 'POST':
+        # Optional: You can store the username or profile pic in session or pass it in the render
+        session['username'] = request.form.get('username')
+        session['profile_picture'] = request.form.get('profile_picture')
+
+    return render_template("userInteraction.html", username=session.get('username'), profile_picture=session.get('profile_picture'))
+
+
+@app.route('/result', methods=['POST'])
+def result():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    # Get form inputs
     username = request.form.get("username", "")
     nmedia = int(request.form.get("nmedia", 0))
     nfollower = int(request.form.get("nfollower", 0))
     nfollowing = int(request.form.get("nfollowing", 0))
     pic = int(request.form.get("pic", 0))
     url_present = int(request.form.get("url", 0))
-    pr = int(request.form.get("pr", 0))
     hasMedia = int(request.form.get("hasMedia", 0))
-    follow_account = int(request.form.get("follow_account", 0))
-    highlights = int(request.form.get("highlights", 0))
-    stories = int(request.form.get("stories", 0))
-    newtag = int(request.form.get("newtag", 0))
 
-    # Calculate follower-to-following ratio
-    try:
-        followertofollowing = round(nfollower / nfollowing, 7) if nfollowing != 0 else 0.0
-    except ZeroDivisionError:
-        followertofollowing = 0.0
+    followertofollowing = round(nfollower / nfollowing, 7) if nfollowing != 0 else 0.0
 
-    # Load the model (you can also move this to global scope to load once)
+    # Load and predict using model
     import pickle
     import numpy as np
     with open("xgb_fake_account_model.pkl", "rb") as f:
         xgb_model = pickle.load(f)
 
-    # Prepare features for prediction (no reanalysis logic used)
-    input_features = np.array([[nmedia, nfollower, nfollowing, pic, url_present,
-                                pr, 0, followertofollowing, hasMedia]])
-
-    prediction = xgb_model.predict(input_features)[0]
+    features = np.array([[nmedia, nfollower, nfollowing, pic, url_present, followertofollowing, hasMedia]])
+    prediction = xgb_model.predict(features)[0]
     result_text = "Fake Account ❌" if prediction == 1 else "Real Account ✅"
 
-    # Pass data to template
-    return render_template(
-        "result.html",
-        username=username,
-        nmedia=nmedia,
-        nfollower=nfollower,
-        nfollowing=nfollowing,
-        pic=pic,
-        url=url_present,
-        pr=pr,
-        hasMedia=hasMedia,
-        follow_account=follow_account,
-        highlights=highlights,
-        stories=stories,
-        newtag=newtag,
-        followertofollowing=followertofollowing,
-        result=result_text  # ⬅️ Pass prediction to template
-    )
-
-
+    return render_template("result.html", username=username, nmedia=nmedia, nfollower=nfollower,
+                           nfollowing=nfollowing, pic=pic, url=url_present,
+                           hasMedia=hasMedia, followertofollowing=followertofollowing,
+                           result=result_text)
 
 # Logout Route
 @app.route('/logout')

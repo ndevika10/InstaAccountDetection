@@ -5,23 +5,24 @@ from sklearn.metrics import accuracy_score
 import pickle
 
 # Load dataset
-df = pd.read_csv("D:\Final Insta Detection\IJECE_df_train.csv")  # Replace with your actual filename
+df = pd.read_csv("D:/Final Insta Detection/IJECE_df_train.csv")  # Make sure path is correct
 
-# Select relevant features and target
+# Select features (removed avgtime and pr)
 features = [
     'nmedia', 'nfollower', 'nfollowing',
-    'pic', 'url', 'pr', 'avgtime',
+    'pic', 'url',
     'followerToFollowing', 'hasMedia'
 ]
 target = 'fake'
 
+# Prepare data
 X = df[features]
 y = df[target]
 
-# Optional: Handle missing values if any
+# Handle missing values
 X = X.fillna(0)
 
-# Split data into train and test sets
+# Split into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42
 )
@@ -30,12 +31,12 @@ X_train, X_test, y_train, y_test = train_test_split(
 model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='logloss')
 model.fit(X_train, y_train)
 
-# Predict on test set and evaluate
+# Make predictions and evaluate
 y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy:.2f}")
 
-# Save model as pickle file
+# Save trained model
 with open("xgb_fake_account_model.pkl", "wb") as f:
     pickle.dump(model, f)
 

@@ -73,7 +73,7 @@
 
         <h3 style="text-align: center; margin-bottom: 25px; color: #333;">👤 Account: <span style="color: #00796b;">{{ username }}</span></h3>
       
-        <form id="detailsForm" method="post" action="/userInteraction">
+        <form id="detailsForm" method="post" action="/result">
           <input type="hidden" name="username" value="{{ username }}">
       
           <label for="nmedia" style="display: block; margin-bottom: 5px;">Number of Posts:</label>
@@ -104,11 +104,11 @@
             <label style="margin-right: 15px;"><input type="radio" name="url" value="1" required style="margin-right: 5px;"> Yes</label>
             <label><input type="radio" name="url" value="0" style="margin-right: 5px;"> No</label>
           </div>
-      
-          <label>Is Account PR?</label>
+
+          <label>Does Account Have anyKind of post?</label>
           <div style="margin-bottom: 10px;">
-            <label style="margin-right: 15px;"><input type="radio" name="pr" value="1" required style="margin-right: 5px;"> Yes</label>
-            <label><input type="radio" name="pr" value="0" style="margin-right: 5px;"> No</label>
+            <label style="margin-right: 15px;"><input type="radio" name="hasMedia" value="1" required style="margin-right: 5px;"> Yes</label>
+            <label><input type="radio" name="hasMedia" value="0" style="margin-right: 5px;"> No</label>
           </div>
           
           <label>Do You Follow This Account?</label>
