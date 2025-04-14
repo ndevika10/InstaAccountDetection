@@ -162,7 +162,7 @@ def result():
     if 'user' not in session:
         return redirect(url_for('login'))
 
-    # Get form inputs
+    # Get basic form inputs
     username = request.form.get("username", "")
     nmedia = int(request.form.get("nmedia", 0))
     nfollower = int(request.form.get("nfollower", 0))
@@ -170,23 +170,52 @@ def result():
     pic = int(request.form.get("pic", 0))
     url_present = int(request.form.get("url", 0))
     hasMedia = int(request.form.get("hasMedia", 0))
+    follow_account = int(request.form.get("follow_account", 0))
+    highlights = int(request.form.get("highlights", 0))
+    stories = int(request.form.get("stories", 0))
+    newtag = int(request.form.get("newtag", 0))
 
+    # Calculate follower-to-following ratio
     followertofollowing = round(nfollower / nfollowing, 7) if nfollowing != 0 else 0.0
 
-    # Load and predict using model
+    # Load model and predict
     import pickle
     import numpy as np
     with open("xgb_fake_account_model.pkl", "rb") as f:
         xgb_model = pickle.load(f)
 
     features = np.array([[nmedia, nfollower, nfollowing, pic, url_present, followertofollowing, hasMedia]])
-    prediction = xgb_model.predict(features)[0]
-    result_text = "Fake Account ❌" if prediction == 1 else "Real Account ✅"
+    prediction = xgb_model.predict(features)[0]  # 1 = Fake, 0 = Real
+    initial_prediction = prediction
 
-    return render_template("result.html", username=username, nmedia=nmedia, nfollower=nfollower,
-                           nfollowing=nfollowing, pic=pic, url=url_present,
-                           hasMedia=hasMedia, followertofollowing=followertofollowing,
-                           result=result_text)
+    # Apply reanalysis rules
+    if prediction == 1:
+        if follow_account == 1:
+            if highlights == stories == 1:
+                prediction = 0  # Real
+        elif newtag == 1:
+            prediction = 0  # Real
+
+    # Final result text
+    result_text = "Fake Account ❌" if prediction == 1 else "Real Account ✅"
+    initial_result = "Fake Account ❌" if initial_prediction == 1 else "Real Account ✅"
+
+    return render_template("result.html",
+                       username=username,
+                       nmedia=nmedia,
+                       nfollower=nfollower,
+                       nfollowing=nfollowing,
+                       pic=pic,
+                       url=url_present,
+                       hasMedia=hasMedia,
+                       followertofollowing=followertofollowing,
+                       result=result_text,
+                       initial_result=initial_result,
+                       was_reanalysed=(prediction != initial_prediction),
+                       follow_account=follow_account,
+                       highlights=highlights,
+                       stories=stories,
+                       newtag=newtag)
 
 # Logout Route
 @app.route('/logout')
